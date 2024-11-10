@@ -1,7 +1,7 @@
 from gpiozero import OutputDevice, PWMOutputDevice
 from time import sleep
 
-class VentiladorL298N:
+class MotoresP:
     def __init__(self, in1_pin, in2_pin, enable_pin):
         # Configurar los pines GPIO para controlar el motor y el pin de habilitación
         self.in1 = OutputDevice(in1_pin)
@@ -32,12 +32,13 @@ class VentiladorL298N:
 
 
 # Ejemplo de uso
-ventilador = VentiladorL298N(in1_pin=20, in2_pin=21, enable_pin=16)
+ventilador = MotoresP(in1_pin=20, in2_pin=21, enable_pin=16)
+dispensador_agua = MotoresP(in1_pin=19, in2_pin=26, enable_pin=13)
 
 # Bucle para controlar el motor desde el terminal
 while True:
-    mensaje = "Ingrese :\n\t'A' para girar adelante, \n\t'R' para girar atrás, \n\t'S' para detener y salir.\nTecla ingresada:  "
-    comando = input(mensaje).upper()
+    mensaje = "Ingrese :\n\t'A' para girar adelante, \n\t'R' para girar atrás, \n\t'S' para detener y salir. \n\t'W' Servir water \n\t'D' devolver awa \nTecla ingresada:  "
+    comando = input(mensaje).upper() 
     
     if comando == "A":
         ventilador.girar_adelante(potencia=0.6)  # Ejecuta a la mitad de la potencia
@@ -48,9 +49,22 @@ while True:
         ventilador.girar_atras(potencia=0.7)  # Ejecuta a la mitad de la potencia
         sleep(10)
         ventilador.detener()
+
+    if comando == "W":
+        print('Sirviendo awa')
+        dispensador_agua.girar_adelante(potencia=0.9)  # Ejecuta a la mitad de la potencia
+        sleep(10)
+        dispensador_agua.detener()
+        
+    elif comando == "D":
+        print('devolviendo awa')
+        dispensador_agua.girar_atras(potencia=0.9)  # Ejecuta a la mitad de la potencia
+        sleep(3)
+        dispensador_agua.detener()
         
     elif comando == "S":
         ventilador.detener()
+        dispensador_agua.detener()
         print("Saliendo...")
         break
     

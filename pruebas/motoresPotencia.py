@@ -52,8 +52,8 @@ while True:
 
     if comando == "W":
         print('Sirviendo awa')
-        dispensador_agua.girar_adelante(potencia=0.9)  # Ejecuta a la mitad de la potencia
-        sleep(10)
+        dispensador_agua.girar_adelante(potencia=0.95)  # Ejecuta a la mitad de la potencia
+        sleep(30)
         dispensador_agua.detener()
         
     elif comando == "D":
